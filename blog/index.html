@@ -27,19 +27,14 @@
     <nav class="navbar">
         <div class="navbar-inner">
             <div class="nav-logo">
-                <a href="../index.html#home">[MAYANK_J0SHI]</a>
+                <a href="../index.html#home" class="brand-swap">
+                    <span class="brand-default">[l0thnic]</span>
+                    <span class="brand-hover">[MAYANK_J0SHI]</span>
+                </a>
             </div>
 
-            <div class="nav-links" id="navLinks">
-                <a href="../index.html#projects" class="nav-link">[PR0JECTS]</a>
-                <a href="./" class="nav-link">[BL0G]</a>
-                <a href="../index.html#about" class="nav-link">[AB0UT]</a>
-                <a href="../index.html#resume" class="nav-link">[RESUME]</a>
-                <a href="../index.html#contact" class="nav-link">[C0NTACT]</a>
-            </div>
-
-            <div class="nav-actions">
-                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+            <div class="nav-right">
+                <!-- <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
                     <svg class="sun-icon" viewBox="0 0 24 24" style="display: none;">
                         <path
                             d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z" />
@@ -47,7 +42,15 @@
                     <svg class="moon-icon" viewBox="0 0 24 24">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
                     </svg>
-                </button>
+                </button> -->
+
+                <div class="nav-links" id="navLinks">
+                    <a href="../index.html#projects" class="nav-link">[PR0JECTS]</a>
+                    <a href="./" class="nav-link">[BL0G]</a>
+                    <a href="../index.html#about" class="nav-link">[AB0UT]</a>
+                    <a href="../index.html#resume" class="nav-link">[RESUME]</a>
+                    <a href="../index.html#contact" class="nav-link">[C0NTACT]</a>
+                </div>
 
                 <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
                     <span></span>
@@ -63,172 +66,10 @@
         <div class="container">
             <div class="blog-header-content">
                 <span class="section-label">BL0G</span>
-                <h1 class="page-title">THOUGHTS & INSIGHTS</h1>
-                <p class="page-subtitle">Exploring machine learning, deep learning, and the future of AI</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== Blog Posts Grid ========== -->
-    <section class="blog-page section">
-        <div class="container">
-            <div class="blog-filter">
-                <button class="filter-btn active" data-filter="all">ALL</button>
-                <button class="filter-btn" data-filter="ml">MACHINE LEARNING</button>
-                <button class="filter-btn" data-filter="nlp">NLP</button>
-                <button class="filter-btn" data-filter="tutorial">TUTORIALS</button>
-            </div>
-
-            <div class="blog-posts-grid">
-                <!-- Blog Post 1 -->
-                <article class="blog-post-card" data-category="ml tutorial">
-                    <a href="#">
-                        <div class="blog-post-image">
-                            <div class="blog-post-placeholder">📝</div>
-                        </div>
-                        <div class="blog-post-content">
-                            <div class="blog-post-meta">
-                                <span class="blog-post-date">December 24, 2024</span>
-                                <span class="blog-post-read-time">8 min read</span>
-                            </div>
-                            <h2 class="blog-post-title">Understanding Transf0rmer Architecture fr0m Scratch</h2>
-                            <p class="blog-post-excerpt">
-                                A deep dive into the attention mechanism and how transformers revolutionized natural
-                                language processing. We'll implement a transformer from scratch using PyTorch.
-                            </p>
-                            <div class="blog-post-tags">
-                                <span class="tag">DEEP LEARNING</span>
-                                <span class="tag">NLP</span>
-                                <span class="tag">PYT0RCH</span>
-                            </div>
-                        </div>
-                    </a>
-                </article>
-
-                <!-- Blog Post 2 -->
-                <article class="blog-post-card" data-category="ml tutorial">
-                    <a href="#">
-                        <div class="blog-post-image">
-                            <div class="blog-post-placeholder">🔧</div>
-                        </div>
-                        <div class="blog-post-content">
-                            <div class="blog-post-meta">
-                                <span class="blog-post-date">November 15, 2024</span>
-                                <span class="blog-post-read-time">12 min read</span>
-                            </div>
-                            <h2 class="blog-post-title">Building a RAG Pipeline with LangChain and Chr0ma</h2>
-                            <p class="blog-post-excerpt">
-                                Step-by-step guide to implementing retrieval-augmented generation for your own
-                                documents. Learn how to combine LLMs with vector databases.
-                            </p>
-                            <div class="blog-post-tags">
-                                <span class="tag">LANGCHAIN</span>
-                                <span class="tag">RAG</span>
-                                <span class="tag">VECT0R DB</span>
-                            </div>
-                        </div>
-                    </a>
-                </article>
-
-                <!-- Blog Post 3 -->
-                <article class="blog-post-card" data-category="tutorial">
-                    <a href="#">
-                        <div class="blog-post-image">
-                            <div class="blog-post-placeholder">🚀</div>
-                        </div>
-                        <div class="blog-post-content">
-                            <div class="blog-post-meta">
-                                <span class="blog-post-date">October 28, 2024</span>
-                                <span class="blog-post-read-time">10 min read</span>
-                            </div>
-                            <h2 class="blog-post-title">Depl0ying ML M0dels with FastAPI and D0cker</h2>
-                            <p class="blog-post-excerpt">
-                                Best practices for containerizing and deploying machine learning models in production.
-                                From local development to cloud deployment.
-                            </p>
-                            <div class="blog-post-tags">
-                                <span class="tag">FASTAPI</span>
-                                <span class="tag">D0CKER</span>
-                                <span class="tag">ML0PS</span>
-                            </div>
-                        </div>
-                    </a>
-                </article>
-
-                <!-- Blog Post 4 -->
-                <article class="blog-post-card" data-category="nlp">
-                    <a href="#">
-                        <div class="blog-post-image">
-                            <div class="blog-post-placeholder">🌐</div>
-                        </div>
-                        <div class="blog-post-content">
-                            <div class="blog-post-meta">
-                                <span class="blog-post-date">September 10, 2024</span>
-                                <span class="blog-post-read-time">15 min read</span>
-                            </div>
-                            <h2 class="blog-post-title">Neural Machine Translati0n f0r L0w-Res0urce Languages</h2>
-                            <p class="blog-post-excerpt">
-                                Exploring techniques to build effective NMT systems when you don't have millions of
-                                parallel sentences. Transfer learning, back-translation, and more.
-                            </p>
-                            <div class="blog-post-tags">
-                                <span class="tag">NMT</span>
-                                <span class="tag">TRANSFER LEARNING</span>
-                                <span class="tag">NLP</span>
-                            </div>
-                        </div>
-                    </a>
-                </article>
-
-                <!-- Blog Post 5 -->
-                <article class="blog-post-card" data-category="ml">
-                    <a href="#">
-                        <div class="blog-post-image">
-                            <div class="blog-post-placeholder">👁️</div>
-                        </div>
-                        <div class="blog-post-content">
-                            <div class="blog-post-meta">
-                                <span class="blog-post-date">August 22, 2024</span>
-                                <span class="blog-post-read-time">9 min read</span>
-                            </div>
-                            <h2 class="blog-post-title">Real-Time 0bject Detecti0n with Y0L0v8</h2>
-                            <p class="blog-post-excerpt">
-                                Getting started with YOLOv8 for real-time object detection. Training custom models and
-                                deploying on edge devices.
-                            </p>
-                            <div class="blog-post-tags">
-                                <span class="tag">C0MPUTER VISI0N</span>
-                                <span class="tag">Y0L0</span>
-                                <span class="tag">EDGE AI</span>
-                            </div>
-                        </div>
-                    </a>
-                </article>
-
-                <!-- Blog Post 6 -->
-                <article class="blog-post-card" data-category="ml tutorial">
-                    <a href="#">
-                        <div class="blog-post-image">
-                            <div class="blog-post-placeholder">⚡</div>
-                        </div>
-                        <div class="blog-post-content">
-                            <div class="blog-post-meta">
-                                <span class="blog-post-date">July 5, 2024</span>
-                                <span class="blog-post-read-time">11 min read</span>
-                            </div>
-                            <h2 class="blog-post-title">Fine-Tuning LLMs with L0RA and QLoRA</h2>
-                            <p class="blog-post-excerpt">
-                                Efficient fine-tuning techniques for large language models. How to adapt massive models
-                                on consumer hardware.
-                            </p>
-                            <div class="blog-post-tags">
-                                <span class="tag">LLM</span>
-                                <span class="tag">FINE-TUNING</span>
-                                <span class="tag">L0RA</span>
-                            </div>
-                        </div>
-                    </a>
-                </article>
+                <h1 class="page-title">C0MING S00N</h1>
+                <p class="page-subtitle">I am in the process of writing some blogs but till then you can check my
+                    projects.</p>
+                <a href="../index.html#projects" class="btn" style="margin-top: 20px;">CHECK PR0JECTS</a>
             </div>
         </div>
     </section>

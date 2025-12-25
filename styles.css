@@ -18,10 +18,10 @@
   --bg-card: #1f1f1f;
   --text-primary: #f9ffdd;
   --text-secondary: rgba(249, 255, 221, 0.6);
-  --text-muted: rgba(249, 255, 221, 0.4);
-  --accent: #d4ff00;
-  --accent-secondary: #ff4800;
-  --accent-hover: #e5ff33;
+  --text-muted: #8C8C8C;
+  --accent: #D45D2A;
+  --accent-secondary: #D45D2A;
+  --accent-hover: #FF8C52;
   --border-color: rgba(249, 255, 221, 0.15);
   --glass-bg: rgba(20, 20, 20, 0.8);
 
@@ -52,10 +52,10 @@
   --bg-card: #ffffff;
   --text-primary: #141414;
   --text-secondary: rgba(20, 20, 20, 0.6);
-  --text-muted: rgba(20, 20, 20, 0.4);
-  --accent: #ff4800;
-  --accent-secondary: #d4ff00;
-  --accent-hover: #ff5c1c;
+  --text-muted: #8C8C8C;
+  --accent: #D45D2A;
+  --accent-secondary: #D45D2A;
+  --accent-hover: #FF8C52;
   --border-color: rgba(20, 20, 20, 0.1);
   --glass-bg: rgba(249, 255, 221, 0.8);
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -185,7 +185,7 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 30px;
+  padding: 0 60px;
   background: var(--glass-bg);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -202,6 +202,48 @@ body::before {
 
 .nav-logo a:hover {
   color: var(--accent);
+}
+
+/* Brand Swap Hover Animation */
+.brand-swap {
+  position: relative;
+  display: inline-block;
+  min-width: 140px;
+  /* Wide enough for [MAYANK_J0SHI] */
+  overflow: hidden;
+  height: 1.6em;
+  line-height: 1.6em;
+  vertical-align: middle;
+}
+
+.brand-swap .brand-default,
+.brand-swap .brand-hover {
+  display: block;
+  white-space: nowrap;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.35s ease;
+}
+
+.brand-swap .brand-default {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.brand-swap .brand-hover {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  opacity: 0;
+}
+
+.brand-swap:hover .brand-default {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.brand-swap:hover .brand-hover {
+  top: 0;
+  opacity: 1;
 }
 
 .nav-links {
@@ -235,6 +277,12 @@ body::before {
 
 .nav-link:hover::after {
   width: 100%;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 .nav-actions {
