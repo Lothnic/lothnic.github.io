@@ -231,8 +231,9 @@ body::before {
 
 .brand-swap .brand-hover {
   position: absolute;
-  top: 100%;
+  top: 0;
   left: 0;
+  transform: translateY(100%);
   opacity: 0;
 }
 
@@ -242,7 +243,7 @@ body::before {
 }
 
 .brand-swap:hover .brand-hover {
-  top: 0;
+  transform: translateY(0);
   opacity: 1;
 }
 
