@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ============================================
+         📝 BLOG POST TEMPLATE
+         ============================================
+         HOW TO USE:
+         1. Copy this file to blog/ folder
+         2. Rename it: your-post-slug.html (e.g., transformer-architecture.html)
+         3. Update the metadata below
+         4. Write your content in the article section
+         5. Add a link in blog/index.html
+         ============================================ -->
+
+    <!-- UPDATE: Post title -->
+    <title>Blog Post Title | Mayank Joshi</title>
+
+    <!-- UPDATE: Post description for SEO -->
+    <meta name="description" content="YOUR POST DESCRIPTION HERE - Keep it under 160 characters">
+
+    <!-- UPDATE: Open Graph for social sharing -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="YOUR POST TITLE HERE">
+    <meta property="og:description" content="YOUR POST DESCRIPTION HERE">
+
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../styles.css">
+</head>
+
+<body>
+    <!-- ========== Navigation ========== -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <div class="nav-logo">
+                <a href="../index.html#home">[MAYANK_J0SHI]</a>
+            </div>
+
+            <div class="nav-links" id="navLinks">
+                <a href="../index.html#projects" class="nav-link">[PR0JECTS]</a>
+                <a href="./" class="nav-link">[BL0G]</a>
+                <a href="../index.html#about" class="nav-link">[AB0UT]</a>
+                <a href="../index.html#resume" class="nav-link">[RESUME]</a>
+                <a href="../index.html#contact" class="nav-link">[C0NTACT]</a>
+            </div>
+
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <svg class="sun-icon" viewBox="0 0 24 24" style="display: none;">
+                        <path
+                            d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z" />
+                    </svg>
+                    <svg class="moon-icon" viewBox="0 0 24 24">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                    </svg>
+                </button>
+
+                <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== Blog Post ========== -->
+    <article class="blog-post-page">
+        <div class="container">
+            <!-- Post Header -->
+            <header class="post-header">
+                <a href="./" class="back-link">← BACK T0 BL0G</a>
+
+                <div class="post-meta-top">
+                    <!-- UPDATE: Date and read time -->
+                    <span class="post-date">DECEMBER 24, 2024</span>
+                    <span class="post-read-time">8 MIN READ</span>
+                </div>
+
+                <!-- UPDATE: Post title -->
+                <h1 class="post-title">Y0UR P0ST TITLE HERE</h1>
+
+                <!-- UPDATE: Post excerpt/subtitle -->
+                <p class="post-excerpt">
+                    A brief description of what this post is about. Keep it to 1-2 sentences.
+                </p>
+
+                <!-- UPDATE: Tags -->
+                <div class="post-tags">
+                    <span class="tag">TAG 0NE</span>
+                    <span class="tag">TAG TW0</span>
+                    <span class="tag">TAG THREE</span>
+                </div>
+            </header>
+
+            <!-- Post Content -->
+            <div class="post-content">
+                <!-- 
+                    ============================================
+                    WRITE YOUR BLOG CONTENT BELOW
+                    
+                    Available elements:
+                    - <h2> for section headings
+                    - <h3> for sub-headings
+                    - <p> for paragraphs
+                    - <code> for inline code
+                    - <pre><code> for code blocks
+                    - <ul>/<ol> for lists
+                    - <blockquote> for quotes
+                    - <img> for images
+                    ============================================
+                -->
+
+                <h2>Introducti0n</h2>
+                <p>
+                    Start your blog post here. This is where you introduce the topic and
+                    explain what the reader will learn. Keep the quirky "0" instead of "O"
+                    style in headings for consistency!
+                </p>
+
+                <h2>Secti0n Heading</h2>
+                <p>
+                    Regular paragraph text goes here. You can use <code>inline code</code>
+                    for technical terms or short code snippets.
+                </p>
+
+                <h3>Sub-heading</h3>
+                <p>
+                    More detailed content under a sub-section.
+                </p>
+
+                <!-- Code block example -->
+                <pre><code># Example Python code
+def hello_world():
+    print("Hello, World!")
+    
+hello_world()</code></pre>
+
+                <!-- List example -->
+                <h3>Key P0ints</h3>
+                <ul>
+                    <li>First important point</li>
+                    <li>Second important point</li>
+                    <li>Third important point</li>
+                </ul>
+
+                <!-- Blockquote example -->
+                <blockquote>
+                    "This is a quote or important callout that you want to highlight."
+                </blockquote>
+
+                <h2>C0nclusi0n</h2>
+                <p>
+                    Wrap up your post with key takeaways and next steps for the reader.
+                </p>
+            </div>
+
+            <!-- Post Footer -->
+            <footer class="post-footer">
+                <div class="post-author">
+                    <div class="author-avatar">👨‍💻</div>
+                    <div class="author-info">
+                        <span class="author-name">MAYANK J0SHI</span>
+                        <span class="author-bio">ML Developer • Open to Work</span>
+                    </div>
+                </div>
+
+                <div class="post-share">
+                    <span class="share-label">SHARE:</span>
+                    <div class="share-links">
+                        <a href="#" class="share-link" aria-label="Share on Twitter">𝕏</a>
+                        <a href="#" class="share-link" aria-label="Share on LinkedIn">in</a>
+                        <a href="#" class="share-link" aria-label="Copy link">🔗</a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </article>
+
+    <!-- ========== Footer ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-text">© 2025 MAYANK J0SHI. ALL RIGHTS RESERVED.</p>
+                <div class="footer-links">
+                    <a href="../index.html#home" class="footer-link">H0ME</a>
+                    <a href="../index.html#projects" class="footer-link">PR0JECTS</a>
+                    <a href="../index.html#contact" class="footer-link">C0NTACT</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../script.js"></script>
+</body>
+
+</html>
