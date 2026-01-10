@@ -1,0 +1,167 @@
+"use client";
+
+import Link from "next/link";
+import { useState, useEffect } from "react";
+import AsciiLogo from "@/components/AsciiLogo";
+import "./blog.css";
+
+interface BlogPost {
+  slug: string;
+  title: string;
+  date: string;
+  tag: string;
+  category: string;
+  excerpt: string;
+}
+
+interface NavSection {
+  id: string;
+  label: string;
+  items: { label: string; slug: string; tag?: string }[];
+}
+
+export default function BlogIndex() {
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [expandedSections, setExpandedSections] = useState<string[]>(["home"]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/blog/posts")
+      .then((res) => res.json())
+      .then((data) => {
+        setPosts(data);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  const toggleSection = (id: string) => {
+    setExpandedSections((prev) =>
+      prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id]
+    );
+  };
+
+  // Group posts by category for navigation
+  const navSections: NavSection[] = [
+    {
+      id: "home",
+      label: "Home",
+      items: [{ label: "README", slug: "" }],
+    },
+    {
+      id: "nlp",
+      label: "Natural Language Processing",
+      items: posts
+        .filter((p) => p.category === "nlp")
+        .map((p) => ({
+          label: p.title.split(":")[0].trim(),
+          slug: p.slug,
+          tag: "NLP",
+        })),
+    },
+    {
+      id: "llm",
+      label: "LLM & RAG Systems",
+      items: posts
+        .filter((p) => p.category === "llm")
+        .map((p) => ({
+          label: p.title.split(":")[0].trim(),
+          slug: p.slug,
+          tag: "RAG",
+        })),
+    },
+    {
+      id: "cv",
+      label: "Computer Vision",
+      items: posts
+        .filter((p) => p.category === "cv")
+        .map((p) => ({
+          label: p.title.split(":")[0].trim(),
+          slug: p.slug,
+          tag: "CV",
+        })),
+    },
+  ].filter((section) => section.id === "home" || section.items.length > 0);
+
+  return (
+    <div className="blog-theme-root">
+      {/* Top Navigation Bar */}
+      <nav className="blog-topbar">
+        <Link href="/" className="blog-brand">
+          <span className="blog-brand-icon">◈</span>
+          <span className="blog-brand-text">Lothnic</span>
+        </Link>
+
+        <span className="blog-topbar-title">Technical Blog</span>
+
+        <div className="blog-topbar-controls">
+          <span className="blog-topbar-link">Terminal</span>
+          <span className="blog-topbar-link active">Light green</span>
+          <span className="blog-topbar-link">Light</span>
+          <span className="blog-topbar-link">○ Search</span>
+        </div>
+      </nav>
+
+      {/* Main Layout */}
+      <div className="blog-layout">
+        {/* Sidebar */}
+        <aside className="blog-sidebar">
+          <div className="blog-sidebar-header">
+            <h2 className="blog-sidebar-title">Table of Contents</h2>
+          </div>
+
+          {navSections.map((section) => (
+            <div
+              key={section.id}
+              className={`blog-nav-section ${expandedSections.includes(section.id) ? "expanded" : ""
+                }`}
+            >
+              <div
+                className={`blog-nav-header ${expandedSections.includes(section.id) ? "active" : ""
+                  }`}
+                onClick={() => toggleSection(section.id)}
+              >
+                <span className="blog-nav-label">{section.label}</span>
+                <span className="blog-nav-toggle">
+                  {expandedSections.includes(section.id) ? "−" : "+"}
+                </span>
+              </div>
+              <ul className="blog-nav-items">
+                {section.items.map((item, idx) => (
+                  <li key={idx}>
+                    <Link
+                      href={item.slug ? `/blog/${item.slug}` : "/blog"}
+                      className="blog-nav-item"
+                    >
+                      {item.label}
+                      {item.tag && <span className="blog-nav-tag">{item.tag}</span>}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </aside>
+
+        {/* Main Content */}
+        <main className="blog-main">
+          <AsciiLogo variant="dotted" />
+
+          {loading ? (
+            <p style={{ color: "var(--blog-text-secondary)", marginTop: "20px" }}>
+              Loading posts<span className="blog-cursor"></span>
+            </p>
+          ) : posts.length > 0 ? (
+            <Link href={`/blog/${posts[0].slug}`} className="blog-readme-link">
+              README
+            </Link>
+          ) : (
+            <p style={{ color: "var(--blog-text-secondary)", marginTop: "20px" }}>
+              No posts yet. Add .md files to content/blog/
+            </p>
+          )}
+        </main>
+      </div>
+    </div>
+  );
+}

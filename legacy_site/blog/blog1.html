@@ -17,15 +17,17 @@
          ============================================ -->
 
     <!-- UPDATE: Post title -->
-    <title>Blog Post Title | Mayank Joshi</title>
+    <title>Lost in Alignment : Building a Word-Matching Engine for Any Language Pair</title>
 
     <!-- UPDATE: Post description for SEO -->
-    <meta name="description" content="YOUR POST DESCRIPTION HERE - Keep it under 160 characters">
+    <meta name="description"
+        content="Exploring the technical challenges and solutions in building a multilingual word-alignment system for any language pair using SimAlign and Transformers.">
 
     <!-- UPDATE: Open Graph for social sharing -->
     <meta property="og:type" content="article">
-    <meta property="og:title" content="YOUR POST TITLE HERE">
-    <meta property="og:description" content="YOUR POST DESCRIPTION HERE">
+    <meta property="og:title" content="Lost in Alignment : Building a Word-Matching Engine for Any Language Pair">
+    <meta property="og:description"
+        content="A deep dive into building word-alignment engines for Neural Machine Translation.">
 
     <!-- Favicon -->
     <link rel="icon"
@@ -40,18 +42,13 @@
     <nav class="navbar">
         <div class="navbar-inner">
             <div class="nav-logo">
-                <a href="../index.html#home">[MAYANK_J0SHI]</a>
+                <a href="../index.html#home" class="brand-swap">
+                    <span class="brand-default">[l0thnic]</span>
+                    <span class="brand-hover">[MAYANK_J0SHI]</span>
+                </a>
             </div>
 
-            <div class="nav-links" id="navLinks">
-                <a href="../index.html#projects" class="nav-link">[PR0JECTS]</a>
-                <a href="./" class="nav-link">[BL0G]</a>
-                <a href="../index.html#about" class="nav-link">[AB0UT]</a>
-                <a href="../index.html#resume" class="nav-link">[RESUME]</a>
-                <a href="../index.html#contact" class="nav-link">[C0NTACT]</a>
-            </div>
-
-            <div class="nav-actions">
+            <div class="nav-right">
                 <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
                     <svg class="sun-icon" viewBox="0 0 24 24" style="display: none;">
                         <path
@@ -61,6 +58,14 @@
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
                     </svg>
                 </button>
+
+                <div class="nav-links" id="navLinks">
+                    <a href="../index.html#projects" class="nav-link">[PR0JECTS]</a>
+                    <a href="./" class="nav-link">[BL0G]</a>
+                    <a href="../index.html#about" class="nav-link">[AB0UT]</a>
+                    <a href="../index.html#resume" class="nav-link">[RESUME]</a>
+                    <a href="../index.html#contact" class="nav-link">[C0NTACT]</a>
+                </div>
 
                 <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
                     <span></span>
@@ -85,18 +90,19 @@
                 </div>
 
                 <!-- UPDATE: Post title -->
-                <h1 class="post-title">Y0UR P0ST TITLE HERE</h1>
+                <h1 class="post-title">Lost in Alignment : Building a Word-Matching Engine for Any Language Pair</h1>
 
                 <!-- UPDATE: Post excerpt/subtitle -->
                 <p class="post-excerpt">
-                    A brief description of what this post is about. Keep it to 1-2 sentences.
+                    Identifying correspondences between words in different languages: A technical deep dive into word
+                    alignment for NMT.
                 </p>
 
                 <!-- UPDATE: Tags -->
                 <div class="post-tags">
-                    <span class="tag">TAG 0NE</span>
-                    <span class="tag">TAG TW0</span>
-                    <span class="tag">TAG THREE</span>
+                    <span class="tag">NLP</span>
+                    <span class="tag">ALIGNMENT</span>
+                    <span class="tag">TRANSFORMERS</span>
                 </div>
             </header>
 
@@ -118,47 +124,49 @@
                     ============================================
                 -->
 
-                <h2>Introducti0n</h2>
+                <h2>INTR0DUCTI0N</h2>
                 <p>
-                    Start your blog post here. This is where you introduce the topic and
-                    explain what the reader will learn. Keep the quirky "0" instead of "O"
-                    style in headings for consistency!
+                    Word alignment is a fundamental task in Neural Machine Translation (NMT). It involves identifying
+                    exactly which words in a source sentence correspond to which words in the translated target. While
+                    modern Transformers handle this internally through attention mechanisms, extracting explicit
+                    alignments is still crucial for many applications like terminology extraction and interactive
+                    translation.
                 </p>
 
-                <h2>Secti0n Heading</h2>
+                <h2>The Pr0blem with Hidden Alignments</h2>
                 <p>
-                    Regular paragraph text goes here. You can use <code>inline code</code>
-                    for technical terms or short code snippets.
+                    Traditional NMT models often keep their "understanding" of word correspondences hidden within dense
+                    attention weights. In this post, we explore how to extract these implicitly learned alignments.
                 </p>
 
-                <h3>Sub-heading</h3>
+                <h3>SimAlign & Contextualized Embeddings</h3>
                 <p>
-                    More detailed content under a sub-section.
+                    One powerful approach is using similarity in contextualized embeddings. By comparing the internal
+                    representations of words from models like mBERT or XLM-R, we can find high-confidence matches across
+                    languages without requiring any parallel data for training.
                 </p>
 
                 <!-- Code block example -->
-                <pre><code># Example Python code
-def hello_world():
-    print("Hello, World!")
-    
-hello_world()</code></pre>
+                <pre><code># Placeholder for alignment logic
+def calculate_similarity(source_embeds, target_embeds):
+    # Compute cosine similarity between embeddings
+    return similarity_matrix</code></pre>
 
-                <!-- List example -->
-                <h3>Key P0ints</h3>
-                <ul>
-                    <li>First important point</li>
-                    <li>Second important point</li>
-                    <li>Third important point</li>
-                </ul>
+                <h2>IMPLEMENTATI0N WITH LING0</h2>
+                <p>
+                    I implemented this within the LINGO project to handle Kangri-Hindi alignment. The results were
+                    impressive, even with limited low-resource data.
+                </p>
 
-                <!-- Blockquote example -->
                 <blockquote>
-                    "This is a quote or important callout that you want to highlight."
+                    "Naming Credits for the LINGO engine go to my friend Raj Singh, who helped shape the identity of
+                    this project."
                 </blockquote>
 
-                <h2>C0nclusi0n</h2>
+                <h2>C0NCLUSI0N</h2>
                 <p>
-                    Wrap up your post with key takeaways and next steps for the reader.
+                    Building a word-matching engine is as much about understanding the 'spirit' of the language as it is
+                    about the math. Stay tuned for more updates on my explorations in alignment and NMT!
                 </p>
             </div>
 
