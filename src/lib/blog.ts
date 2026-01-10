@@ -70,7 +70,24 @@ export async function getPostWithContent(slug: string): Promise<BlogPost | null>
         .use(html, { sanitize: false })
         .process(content);
 
-    const contentHtml = processedContent.toString();
+    let contentHtml = processedContent.toString();
+
+    // Add IDs to headings for anchor navigation
+    contentHtml = contentHtml.replace(/<h2>([^<]+)<\/h2>/gi, (match, text) => {
+        const id = text
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/(^-|-$)/g, "");
+        return `<h2 id="${id}">${text}</h2>`;
+    });
+
+    contentHtml = contentHtml.replace(/<h3>([^<]+)<\/h3>/gi, (match, text) => {
+        const id = text
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/(^-|-$)/g, "");
+        return `<h3 id="${id}">${text}</h3>`;
+    });
 
     return {
         slug,

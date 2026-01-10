@@ -35,7 +35,7 @@ Random Stuff I find interesting?
 I'm **Lothnic** Mayank Joshi - an ML developer with main character energy and a production-first mindset. I build AI systems that ship, document my 2 AM debugging spirals, and believe the best learning happens when you're slightly in over your head. My Roman Empire is model drift in production.
 
 ## Tech Stack
-
+<!-- Add Tab space here -->
 - Languages:    Python (fluent), TypeScript (surviving), Rust (manifesting)
 - ML:           PyTorch, Transformers, OpenNMT, Pathway (Heavy Lifting)
 - Data:         Pandas, NumPy, xarray, Polars (because pandas was giving mid performance)
@@ -47,8 +47,8 @@ I'm **Lothnic** Mayank Joshi - an ML developer with main character energy and a 
 
 - Portfolio: [lothnic.vercel.app](https://lothnic.vercel.app) | My "I understood the assignment" page
 - GitHub: [github.com/Lothnic](https://github.com/Lothnic) | Where the code actually lives
-- Contact: lothnic [at] pm [dot] me | I read every email (no cap)
+- Contact: lothnic [at] pm [dot] me | I read every email (if you are a recruiter)
 
 ---
 
-*Select a topic from the sidebar. Or don't. I'm a blog, not a cop.*
+*Select a topic from the sidebar. Or don't.*

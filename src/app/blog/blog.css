@@ -44,6 +44,13 @@
   min-height: 100vh;
   font-family: var(--blog-font-mono);
   position: relative;
+  scroll-behavior: smooth;
+}
+
+/* Offset for sticky header when scrolling to anchors */
+.blog-content h2[id],
+.blog-content h3[id] {
+  scroll-margin-top: 80px;
 }
 
 /* CRT Scanline overlay */
