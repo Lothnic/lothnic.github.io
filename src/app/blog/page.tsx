@@ -20,10 +20,28 @@ interface NavSection {
   items: { label: string; slug: string; tag?: string }[];
 }
 
+type BlogTheme = "portfolio" | "terminal";
+
 export default function BlogIndex() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [expandedSections, setExpandedSections] = useState<string[]>(["home"]);
   const [loading, setLoading] = useState(true);
+  const [theme, setTheme] = useState<BlogTheme>("portfolio");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Load theme from localStorage on mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("blog-theme") as BlogTheme;
+    if (savedTheme) {
+      setTheme(savedTheme);
+    }
+  }, []);
+
+  // Apply theme to document
+  useEffect(() => {
+    document.documentElement.setAttribute("data-blog-theme", theme);
+    localStorage.setItem("blog-theme", theme);
+  }, [theme]);
 
   useEffect(() => {
     fetch("/api/blog/posts")
@@ -46,7 +64,7 @@ export default function BlogIndex() {
     {
       id: "home",
       label: "Home",
-      items: [{ label: "README", slug: "" }],
+      items: [{ label: "README", slug: "readme" }],
     },
     {
       id: "nlp",
@@ -95,17 +113,32 @@ export default function BlogIndex() {
         <span className="blog-topbar-title">Technical Blog</span>
 
         <div className="blog-topbar-controls">
-          <span className="blog-topbar-link">Terminal</span>
-          <span className="blog-topbar-link active">Light green</span>
-          <span className="blog-topbar-link">Light</span>
-          <span className="blog-topbar-link">○ Search</span>
+          <button
+            className={`blog-topbar-link ${theme === "terminal" ? "active" : ""}`}
+            onClick={() => setTheme("terminal")}
+          >
+            Terminal
+          </button>
+          <button
+            className={`blog-topbar-link ${theme === "portfolio" ? "active" : ""}`}
+            onClick={() => setTheme("portfolio")}
+          >
+            Portfolio
+          </button>
+          <button
+            className="blog-mobile-menu-btn"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? "✕" : "☰"}
+          </button>
         </div>
       </nav>
 
       {/* Main Layout */}
       <div className="blog-layout">
         {/* Sidebar */}
-        <aside className="blog-sidebar">
+        <aside className={`blog-sidebar ${mobileMenuOpen ? "mobile-open" : ""}`}>
           <div className="blog-sidebar-header">
             <h2 className="blog-sidebar-title">Table of Contents</h2>
           </div>
@@ -151,14 +184,10 @@ export default function BlogIndex() {
             <p style={{ color: "var(--blog-text-secondary)", marginTop: "20px" }}>
               Loading posts<span className="blog-cursor"></span>
             </p>
-          ) : posts.length > 0 ? (
-            <Link href={`/blog/${posts[0].slug}`} className="blog-readme-link">
+          ) : (
+            <Link href="/blog/readme" className="blog-readme-link">
               README
             </Link>
-          ) : (
-            <p style={{ color: "var(--blog-text-secondary)", marginTop: "20px" }}>
-              No posts yet. Add .md files to content/blog/
-            </p>
           )}
         </main>
       </div>

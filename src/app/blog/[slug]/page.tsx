@@ -1,39 +1,92 @@
+"use client";
+
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import { getPostWithContent, getPostSlugs, formatDate, extractHeadings } from "@/lib/blog";
+import { useEffect, useState } from "react";
 import "../blog.css";
 
-// Generate static paths for all blog posts
-export async function generateStaticParams() {
-  const slugs = getPostSlugs();
-  return slugs.map((slug) => ({ slug }));
+interface BlogPost {
+  slug: string;
+  title: string;
+  date: string;
+  tag: string;
+  category: string;
+  excerpt: string;
+  content: string;
 }
 
-// Generate metadata for SEO
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const post = await getPostWithContent(slug);
-
-  if (!post) {
-    return { title: "Post Not Found" };
-  }
-
-  return {
-    title: post.title,
-    description: post.excerpt,
-  };
+interface TOCItem {
+  id: string;
+  label: string;
 }
 
-export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const post = await getPostWithContent(slug);
+type BlogTheme = "portfolio" | "terminal";
 
-  if (!post) {
-    notFound();
+export default function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
+  const [post, setPost] = useState<BlogPost | null>(null);
+  const [toc, setToc] = useState<TOCItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [theme, setTheme] = useState<BlogTheme>("portfolio");
+  const [slug, setSlug] = useState<string>("");
+
+  // Load theme from localStorage on mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("blog-theme") as BlogTheme;
+    if (savedTheme) {
+      setTheme(savedTheme);
+    }
+  }, []);
+
+  // Apply theme to document
+  useEffect(() => {
+    document.documentElement.setAttribute("data-blog-theme", theme);
+    localStorage.setItem("blog-theme", theme);
+  }, [theme]);
+
+  // Resolve params and fetch post
+  useEffect(() => {
+    params.then(({ slug: s }) => {
+      setSlug(s);
+      fetch(`/api/blog/post/${s}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.error) {
+            setPost(null);
+          } else {
+            setPost(data);
+            // Extract headings for TOC
+            const headings = extractHeadingsFromHtml(data.content || "");
+            setToc(headings);
+          }
+          setLoading(false);
+        })
+        .catch(() => setLoading(false));
+    });
+  }, [params]);
+
+  if (loading) {
+    return (
+      <div className="blog-theme-root">
+        <div className="blog-container" style={{ paddingTop: "100px", textAlign: "center" }}>
+          <p style={{ color: "var(--blog-text-secondary)" }}>
+            Loading<span className="blog-cursor"></span>
+          </p>
+        </div>
+      </div>
+    );
   }
 
-  // Extract headings for table of contents
-  const toc = post.content ? extractHeadingsFromHtml(post.content) : [];
+  if (!post) {
+    return (
+      <div className="blog-theme-root">
+        <div className="blog-container" style={{ paddingTop: "100px", textAlign: "center" }}>
+          <h1 className="blog-title">Post Not Found</h1>
+          <Link href="/blog" style={{ color: "var(--blog-accent)" }}>
+            ← Back to Index
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="blog-theme-root">
@@ -47,9 +100,18 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
         <span className="blog-topbar-title">{post.title.split(":")[0]}</span>
 
         <div className="blog-topbar-controls">
-          <span className="blog-topbar-link">Terminal</span>
-          <span className="blog-topbar-link active">Light green</span>
-          <span className="blog-topbar-link">Light</span>
+          <button
+            className={`blog-topbar-link ${theme === "terminal" ? "active" : ""}`}
+            onClick={() => setTheme("terminal")}
+          >
+            Terminal
+          </button>
+          <button
+            className={`blog-topbar-link ${theme === "portfolio" ? "active" : ""}`}
+            onClick={() => setTheme("portfolio")}
+          >
+            Portfolio
+          </button>
         </div>
       </nav>
 
@@ -74,7 +136,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
               marginBottom: "10px",
             }}
           >
-            {formatDate(post.date)} // {post.tag}
+            {post.date} // {post.tag}
           </div>
           <h1 className="blog-title" style={{ fontSize: "2.5rem" }}>
             {post.title}
@@ -117,9 +179,9 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
 }
 
 // Helper to extract headings from HTML content
-function extractHeadingsFromHtml(html: string): { id: string; label: string }[] {
+function extractHeadingsFromHtml(html: string): TOCItem[] {
   const headingRegex = /<h2[^>]*id="([^"]*)"[^>]*>([^<]*)<\/h2>/gi;
-  const headings: { id: string; label: string }[] = [];
+  const headings: TOCItem[] = [];
   let match;
 
   // First try to find h2 with id attributes
