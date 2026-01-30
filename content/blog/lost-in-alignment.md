@@ -21,7 +21,46 @@ sitting idle while the CPU is going berserk and to add icing on the cake, it als
 
 ## The Dictionary Extraction Problem
 
-Let us first stop calling this "word alignment" for a moment. This term comes with a baggage of expectations. It is not. It is just a **dictionary extraction** problem.
+Let us first stop calling this "word alignment" for a moment. This term comes with a baggage of expectations. It is not. It is just a **DICTIONARY EXTRACTION** problem.
+
+So you have two texts in different languages. You suspect they're translations of each other. You need to know: which word in Language A corresponds to which word in Language B?
+
+For high-resource pairs like English-French, this is a solved problem in the sense that we have enough data to hide the absurdity. But for low-resource languages—like Kangri, with its 2 million speakers and pre-digital corpus that is not represented digitally laughs at you. It demands hundreds of thousands of sentence pairs to converge. You have ten thousand. You're not building a statistical model; you're performing a interlanguage dictionary extraction miracle.
+
+Even neural machine translation hasn't killed the need for explicit alignment. Attention mechanisms give us soft alignments, sure, but try extracting a bilingual dictionary from attention weights. It's like leaving that to the gods of attention.
+
+For terminology constraints, attention supervision, and actual interpretability, you still need sparse, discrete word pairs. You need to know that "cat" = "बिल्ली," not that token 47 has a 0.23 attention weight to token 92. Althought the working is kind of similar as we are finding similarity between words in different languages using their embeddings in the same space.
+
+## The "Embeddings as an Oracle" Insight
+
+```
+Oracle is defined as a source of information or a person who has a lot of knowledge about a subject.
+```
+
+Here is the conceptual idea this is the basis of this work: 
+
+- **Traditional Approach**: Use parallel data to learn that words are related.
+- **Our Approach**: Query pretrained embeddings that already know which words are related.
+
+<!-- dropdown -->
+
+<details>
+  <summary>If you want to understand what are embeddings</summary>
+
+  While traditional models like GIZA++ require massive amounts of parallel data to "learn" alignments from scratch,
+  modern **multilingual embeddings** (like LaBSE) already know the semantic relationships between languages.
+  We are simply querying that existing knowledge.
+
+</details>
+
+
+
+Now we can think of the traditional approach as a person moving to france and learning the language by living in a french neighborhood for 5 years and then trying to create a dictionary by learning the language, whereas our approach is like having a bilingual person who already did the hard work. 
+
+Here models like LaBSE and mBERT are our bilingual/multilingual friends, they have already mapped over 100 languages into a shared vector space where similar or *semantic equivalent* words literally point in the same direction.
+
+Instead of learning alignment from parallel data, we query alignment from multilingual embeddings that already encode cross-lingual semantics.
+The parallel text isn't the teacher anymore—it's just the question we're asking the oracle.
 
 ## Results
 
