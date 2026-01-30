@@ -569,6 +569,8 @@
   border-radius: 4px;
   overflow-x: auto;
   border: 1px solid var(--blog-border);
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 
 /* Blockquote styling with proper text wrapping */
@@ -631,7 +633,7 @@
   text-shadow: 0 0 8px var(--blog-accent-glow);
 }
 
-.blog-content details > *:not(summary) {
+.blog-content details>*:not(summary) {
   padding: 0 20px 15px;
   color: var(--blog-text-secondary);
 }
