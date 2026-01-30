@@ -42,10 +42,11 @@ Here is the conceptual idea this is the basis of this work:
 - **Traditional Approach**: Use parallel data to learn that words are related.
 - **Our Approach**: Query pretrained embeddings that already know which words are related.
 
+<br>
 <!-- dropdown -->
 
 <details>
-  <summary>If you want to understand what are embeddings</summary>
+  <summary><b>What are embeddings?</b> <i>(Click for more info)</i></summary>
 
   While traditional models like GIZA++ require massive amounts of parallel data to "learn" alignments from scratch,
   modern **multilingual embeddings** (like LaBSE) already know the semantic relationships between languages.
@@ -53,7 +54,7 @@ Here is the conceptual idea this is the basis of this work:
 
 </details>
 
-
+<br>
 
 Now we can think of the traditional approach as a person moving to france and learning the language by living in a french neighborhood for 5 years and then trying to create a dictionary by learning the language, whereas our approach is like having a bilingual person who already did the hard work. 
 

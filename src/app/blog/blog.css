@@ -571,6 +571,71 @@
   border: 1px solid var(--blog-border);
 }
 
+/* Blockquote styling with proper text wrapping */
+.blog-content blockquote {
+  background: var(--blog-bg-secondary);
+  border-left: 3px solid var(--blog-accent);
+  padding: 15px 20px;
+  margin: 20px 0;
+  color: var(--blog-text-secondary);
+  font-style: italic;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+.blog-content blockquote code {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Details/Summary dropdown styling */
+.blog-content details {
+  background: var(--blog-bg-secondary);
+  border: 1px solid var(--blog-border);
+  border-radius: 4px;
+  margin: 20px 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.blog-content details summary {
+  padding: 15px 20px;
+  cursor: pointer;
+  color: var(--blog-text-primary);
+  font-weight: 500;
+  transition: all 0.2s ease;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.blog-content details summary::-webkit-details-marker {
+  display: none;
+}
+
+.blog-content details summary::before {
+  content: "▶";
+  font-size: 0.7em;
+  color: var(--blog-accent);
+  transition: transform 0.2s ease;
+}
+
+.blog-content details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.blog-content details summary:hover {
+  background: var(--blog-bg);
+  text-shadow: 0 0 8px var(--blog-accent-glow);
+}
+
+.blog-content details > *:not(summary) {
+  padding: 0 20px 15px;
+  color: var(--blog-text-secondary);
+}
+
 /* ==========================================================================
    Responsive
    ========================================================================== */
