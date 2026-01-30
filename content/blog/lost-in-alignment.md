@@ -8,22 +8,20 @@ excerpt: "Identifying correspondences between words in different languages: A te
 
 ## Introduction
 
-Word alignment is the task of identifying which words in a source sentence correspond to which words in a target sentence. While modern Transformers handle this implicitly through attention, explicit alignment is still crucial for tasks like terminology constraint enforcement and dictionary extraction.
+In 2019, training an IBM Model 4 alignment system required 72 hours, 4 million parallel sentences, and approximately one graduate student's will to live. Last week, I aligned Hindi and Kangri on my laptop in 8 minutes using a Python script I wrote while I was also going insane waiting for another model to finish training.
 
-## The Architecture
+The script is ~250 lines. It uses zero training data. It outperforms the 72-hour model.
 
-Our approach utilizes a 6-layer Transformer trained on parallel corpora. We extract alignment by analyzing the cross-attention weights between the encoder and decoder. By averaging attention heads and applying a threshold, we can produce high-quality sparse alignment matrices.
+This is not because I'm a genius but because I do have a lot of free time. It's because we've been solving the wrong problem for this whole time.
 
-## Implementation Details
+### Note on Intellectual Debt
 
-The system was built using `OpenNMT-py` and optimized with `CTranslate2` for inference. We used `SentencePiece` for subword tokenization, which significantly improved alignment quality for morphologically rich languages like Kangri.
+This is not a breakthrough. It's a spiritual implementation of SimAlign by CIS, LMU Munich, with batching and memory management added because I got tired of watching my GPU 
+sitting idle while the CPU is going berserk and to add icing on the cake, it also took way longer than it should have. 
 
-### Key Components
+## The Dictionary Extraction Problem
 
-1. **Tokenization Pipeline**: SentencePiece with BPE
-2. **Model Architecture**: 6-layer Transformer with 8 attention heads
-3. **Training Data**: 100k+ parallel sentences
-4. **Inference**: CTranslate2 for 3x speedup
+Let us first stop calling this "word alignment" for a moment. This term comes with a baggage of expectations. It is not. It is just a **dictionary extraction** problem.
 
 ## Results
 
