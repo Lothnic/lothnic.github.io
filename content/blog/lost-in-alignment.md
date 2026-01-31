@@ -48,9 +48,23 @@ Here is the conceptual idea this is the basis of this work:
 <details>
   <summary><b>What are embeddings?</b> <i>(Click for more info)</i></summary>
 
-  While traditional models like GIZA++ require massive amounts of parallel data to "learn" alignments from scratch,
-  modern **multilingual embeddings** (like LaBSE) already know the semantic relationships between languages.
-  We are simply querying that existing knowledge.
+  To understand embeddings we need to understand tokenization first.
+  
+  Unlike Humans Computers only understand numbers so we need to first convert the strings or words into numbers this process is called **tokenisation**.
+
+  There are several methods of tokenisation but that is not the point of this discussion. 
+
+  Usually we convert these sentences and words into array of numbers or *tensors* which can be represented in a higher dimentional space as vectors or points in the embedding space.
+
+  <img>
+
+  Imagine you have a dictionary, but instead of words, it contains **vectors** (long lists of numbers).
+
+  If two words are semantically similar (like "cat" and "dog"), their vectors will be mathematically close in this space.
+  If they are unrelated (like "cat" and "democracy"), their vectors will be far apart.
+
+  **Multilingual embeddings** (like LaBSE) are special because they map words from **different languages** into the same vector space.
+  This means "cat" (English) and "बिल्ली" (Hindi) will be very close together if the model understands they mean the same thing.
 
 </details>
 
