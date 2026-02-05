@@ -554,6 +554,12 @@
   color: var(--blog-text-secondary);
 }
 
+/* Highlighted text - use <mark> in markdown */
+.blog-content mark {
+  background: transparent;
+  color: var(--blog-accent);
+}
+
 .blog-content code {
   background: var(--blog-bg-secondary);
   padding: 3px 8px;
@@ -564,13 +570,52 @@
 }
 
 .blog-content pre {
-  background: var(--blog-bg-secondary);
-  padding: 20px;
-  border-radius: 4px;
+  background: rgba(30, 32, 35, 0.95);
+  padding: 24px 28px;
+  border-radius: 6px;
   overflow-x: auto;
-  border: 1px solid var(--blog-border);
+  border: 1px solid rgba(249, 255, 221, 0.1);
   white-space: pre-wrap;
   word-wrap: break-word;
+  line-height: 1.7;
+  font-size: 0.92rem;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Code inside pre blocks - softer, more readable color */
+.blog-content pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: #e8e6e3;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+/* Python/code syntax highlighting colors */
+.blog-content pre code .comment,
+.blog-content pre .comment {
+  color: #6a9955;
+}
+
+.blog-content pre code .keyword,
+.blog-content pre .keyword {
+  color: #c586c0;
+}
+
+.blog-content pre code .string,
+.blog-content pre .string {
+  color: #ce9178;
+}
+
+.blog-content pre code .function,
+.blog-content pre .function {
+  color: #dcdcaa;
+}
+
+.blog-content pre code .number,
+.blog-content pre .number {
+  color: #b5cea8;
 }
 
 /* Blockquote styling with proper text wrapping */
@@ -589,6 +634,53 @@
 .blog-content blockquote code {
   white-space: pre-wrap;
   word-break: break-word;
+}
+
+/* Table styling */
+.blog-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9rem;
+  background: var(--blog-bg-secondary);
+  border: 1px solid var(--blog-border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.blog-content thead {
+  background: rgba(212, 93, 42, 0.15);
+  border-bottom: 2px solid var(--blog-accent-dim);
+}
+
+.blog-content th {
+  padding: 14px 18px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--blog-accent);
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+}
+
+.blog-content td {
+  padding: 12px 18px;
+  color: var(--blog-text-secondary);
+  border-bottom: 1px solid var(--blog-border);
+}
+
+.blog-content tr:last-child td {
+  border-bottom: none;
+}
+
+.blog-content tbody tr:hover {
+  background: rgba(249, 255, 221, 0.03);
+}
+
+/* Responsive table wrapper */
+.blog-content .table-wrapper {
+  overflow-x: auto;
+  margin: 25px 0;
 }
 
 /* Details/Summary dropdown styling */
@@ -754,8 +846,9 @@
   }
 
   .blog-content pre {
-    padding: 15px;
+    padding: 18px 16px;
     font-size: 0.8rem;
+    line-height: 1.65;
   }
 
   .blog-brand-text {
