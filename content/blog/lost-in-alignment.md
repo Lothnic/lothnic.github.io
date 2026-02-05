@@ -163,8 +163,10 @@ Word alignment isn't dead; it's just no longer a machine learning problem. For h
 The shift from training IBM models to querying LaBSE represents a broader trend in NLP: the move from learning representations to leveraging them. We spent a decade teaching machines what words mean. Now we spend our time asking the right questions of machines that already know.
 VectorAlign is one such question. The answer is 85% accurate and takes eight minutes.
 
-### Installation for the impatient
+### Installation for the impatient And Resources
 
 ```bash
 pip install vectoralign
 ```
+
+For more details, see the <mark>[Github Repo](https://github.com/lothnic/vectoralign)</mark> and <mark>[PyPI Package](https://pypi.org/project/vectoralign/)</mark>.
