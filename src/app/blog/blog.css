@@ -377,6 +377,139 @@
 }
 
 /* ==========================================================================
+   Recent Blogs Section (after animation)
+   ========================================================================== */
+
+.recent-blogs-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  margin-top: 40px;
+  width: 100%;
+  max-width: 1000px;
+  animation: fadeInSection 0.4s ease-out;
+}
+
+@keyframes fadeInSection {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.recent-blogs-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--blog-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 10px;
+}
+
+.recent-blogs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+.recent-blog-card {
+  background: var(--blog-bg-secondary);
+  border: 1px solid var(--blog-border);
+  padding: 24px;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.recent-blog-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 0;
+  background: var(--blog-accent);
+  transition: height 0.3s ease;
+}
+
+.recent-blog-card:hover {
+  background: var(--blog-bg);
+  border-color: var(--blog-accent-dim);
+  transform: translateY(-2px);
+}
+
+.recent-blog-card:hover::before {
+  height: 100%;
+}
+
+.recent-blog-tag {
+  font-size: 0.65rem;
+  color: var(--blog-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 2px 8px;
+  border: 1px solid var(--blog-accent-dim);
+  width: fit-content;
+}
+
+.recent-blog-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--blog-text-primary);
+  margin: 0;
+  line-height: 1.4;
+  transition: color 0.3s ease;
+}
+
+.recent-blog-card:hover .recent-blog-title {
+  color: var(--blog-accent);
+  text-shadow: 0 0 10px var(--blog-accent-glow);
+}
+
+.recent-blog-excerpt {
+  font-size: 0.85rem;
+  color: var(--blog-text-secondary);
+  line-height: 1.6;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Responsive adjustments for recent blogs */
+@media (max-width: 768px) {
+  .recent-blogs-section {
+    margin-top: 30px;
+    gap: 20px;
+  }
+
+  .recent-blogs-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .recent-blog-card {
+    padding: 20px;
+  }
+
+  .recent-blog-title {
+    font-size: 1rem;
+  }
+}
+
+/* ==========================================================================
    Blog Grid (Index Page)
    ========================================================================== */
 

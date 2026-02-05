@@ -28,6 +28,7 @@ export default function BlogIndex() {
   const [loading, setLoading] = useState(true);
   const [theme, setTheme] = useState<BlogTheme>("portfolio");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [animationComplete, setAnimationComplete] = useState(false);
 
   // Load theme from localStorage on mount
   useEffect(() => {
@@ -178,17 +179,36 @@ export default function BlogIndex() {
 
         {/* Main Content */}
         <main className="blog-main">
-          <AsciiLogo variant="dotted" />
+          <AsciiLogo
+            variant="dotted"
+            onAnimationComplete={() => setAnimationComplete(true)}
+          />
 
           {loading ? (
             <p style={{ color: "var(--blog-text-secondary)", marginTop: "20px" }}>
               Loading posts<span className="blog-cursor"></span>
             </p>
-          ) : (
-            <Link href="/blog/readme" className="blog-readme-link">
-              README
-            </Link>
-          )}
+          ) : animationComplete ? (
+            <div className="recent-blogs-section">
+              <h3 className="recent-blogs-title">Recent Posts</h3>
+              <div className="recent-blogs-grid">
+                {posts.slice(0, 3).map((post) => (
+                  <Link
+                    key={post.slug}
+                    href={`/blog/${post.slug}`}
+                    className="recent-blog-card"
+                  >
+                    <span className="recent-blog-tag">{post.tag}</span>
+                    <h4 className="recent-blog-title">{post.title}</h4>
+                    <p className="recent-blog-excerpt">{post.excerpt}</p>
+                  </Link>
+                ))}
+              </div>
+              <Link href="/blog/readme" className="blog-readme-link">
+                README
+              </Link>
+            </div>
+          ) : null}
         </main>
       </div>
     </div>

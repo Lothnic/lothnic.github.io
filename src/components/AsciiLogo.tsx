@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 // ASCII art with dotted scatter pattern
 const asciiArtLines = [
@@ -26,15 +26,23 @@ interface AsciiLogoProps {
     variant?: "solid" | "dotted";
     className?: string;
     lineDelay?: number; // Delay between each line in ms
+    onAnimationComplete?: () => void; // Callback when animation finishes
 }
 
 export default function AsciiLogo({
     variant = "dotted",
     className = "",
-    lineDelay = 80
+    lineDelay = 80,
+    onAnimationComplete
 }: AsciiLogoProps) {
     const [visibleLines, setVisibleLines] = useState(0);
     const [isComplete, setIsComplete] = useState(false);
+    const onCompleteRef = useRef(onAnimationComplete);
+
+    // Keep the ref updated with the latest callback
+    useEffect(() => {
+        onCompleteRef.current = onAnimationComplete;
+    }, [onAnimationComplete]);
 
     useEffect(() => {
         // Reset on mount
@@ -52,6 +60,10 @@ export default function AsciiLogo({
             if (currentLine >= totalLines) {
                 clearInterval(interval);
                 setIsComplete(true);
+                // Add a small delay before triggering callback for smoother transition
+                setTimeout(() => {
+                    onCompleteRef.current?.();
+                }, 500);
             }
         }, lineDelay);
 
