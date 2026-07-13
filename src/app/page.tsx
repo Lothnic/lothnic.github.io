@@ -1,60 +1,60 @@
 "use client";
 
-import { useEffect } from "react";
-import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import Projects from "@/components/Projects";
-import About from "@/components/About";
-import Resume from "@/components/Resume";
-import BlogPreview from "@/components/BlogPreview";
-import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
+import { useScrollParallax } from "@/hooks/useScrollParallax";
+import { useFooterReveal } from "@/hooks/useFooterReveal";
+import { SmoothScroll } from "@/components/SmoothScroll";
+import { Nav } from "@/components/Nav";
+import { HeroHeader } from "@/components/HeroHeader";
+import { DownloadCards } from "@/components/DownloadCards";
+import { FeaturePanel } from "@/components/FeaturePanel";
+import { Footer } from "@/components/Footer";
+import { GrainOverlay } from "@/components/GrainOverlay";
+import { HeroCanvas } from "@/components/HeroCanvas";
+import { LatestPosts } from "@/components/LatestPosts";
+
+import { useState, useEffect } from "react";
+import { cn } from "@/lib/utils";
 
 export default function Home() {
+  const parallaxRef = useScrollParallax();
+  useFooterReveal();
+
+  const [theme, setTheme] = useState<"light" | "dark">("dark");
+
   useEffect(() => {
-    // Scroll Animations
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: "0px 0px -50px 0px",
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const target = entry.target as HTMLElement;
-          target.style.opacity = "1";
-          target.style.transform = "translateY(0)";
-        }
-      });
-    }, observerOptions);
-
-    // Observe sections and cards
-    const animatedElements = document.querySelectorAll(
-      ".project-card, .blog-card, .timeline-item"
-    );
-    animatedElements.forEach((el) => {
-      const target = el as HTMLElement;
-      target.style.opacity = "0";
-      target.style.transform = "translateY(20px)";
-      target.style.transition = "opacity 0.6s ease, transform 0.6s ease";
-      observer.observe(target);
-    });
-
-    return () => {
-      animatedElements.forEach((el) => observer.unobserve(el));
-    };
+    const saved = localStorage.getItem("portfolio-theme") as "light" | "dark";
+    if (saved) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setTheme(saved);
+    }
   }, []);
 
+  const toggleTheme = () => {
+    const next = theme === "light" ? "dark" : "light";
+    setTheme(next);
+    localStorage.setItem("portfolio-theme", next);
+  };
+
   return (
-    <main>
-      <Navbar />
-      <Hero />
-      <Projects />
-      <About />
-      <Resume />
-      <BlogPreview />
-      <Contact />
-      <Footer />
-    </main>
+    <div className={cn("portfolio-web", theme)}>
+      <SmoothScroll />
+      <HeroCanvas theme={theme} />
+      <main className="relative z-2 mx-auto max-w-[1600px]">
+        <div className="hw-scroll">
+          <Nav theme={theme} toggleTheme={toggleTheme} />
+          <HeroHeader />
+          <DownloadCards />
+          <div ref={parallaxRef}>
+            <FeaturePanel />
+          </div>
+          <LatestPosts />
+        </div>
+
+        <Footer />
+        <GrainOverlay />
+
+        <div className="hw-frame" aria-hidden="true" />
+      </main>
+    </div>
   );
 }

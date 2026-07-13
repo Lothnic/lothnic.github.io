@@ -1,206 +1,191 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import "../blog.css";
+import { useParams } from "next/navigation";
+import { posts } from "@/data/posts";
+import { useState, useEffect } from "react";
+import { cn } from "@/lib/utils";
+import { GrainOverlay } from "@/components/GrainOverlay";
+import { HeroCanvas } from "@/components/HeroCanvas";
+import { Sun, Moon } from "lucide-react";
 
-interface BlogPost {
-  slug: string;
-  title: string;
-  date: string;
-  tag: string;
-  category: string;
-  excerpt: string;
-  content: string;
-}
+export default function BlogPost() {
+  const params = useParams();
+  const slug = params?.slug as string;
+  
+  const [theme, setTheme] = useState<"light" | "dark">("dark");
 
-interface TOCItem {
-  id: string;
-  label: string;
-}
-
-type BlogTheme = "portfolio" | "terminal";
-
-export default function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
-  const [post, setPost] = useState<BlogPost | null>(null);
-  const [toc, setToc] = useState<TOCItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [theme, setTheme] = useState<BlogTheme>("portfolio");
-  const [slug, setSlug] = useState<string>("");
-
-  // Load theme from localStorage on mount
   useEffect(() => {
-    const savedTheme = localStorage.getItem("blog-theme") as BlogTheme;
-    if (savedTheme) {
-      setTheme(savedTheme);
+    const saved = localStorage.getItem("portfolio-theme") as "light" | "dark";
+    if (saved) {
+      setTheme(saved);
     }
   }, []);
 
-  // Apply theme to document
-  useEffect(() => {
-    document.documentElement.setAttribute("data-blog-theme", theme);
-    localStorage.setItem("blog-theme", theme);
-  }, [theme]);
+  const toggleTheme = () => {
+    const next = theme === "light" ? "dark" : "light";
+    setTheme(next);
+    localStorage.setItem("portfolio-theme", next);
+  };
 
-  // Resolve params and fetch post
-  useEffect(() => {
-    params.then(({ slug: s }) => {
-      setSlug(s);
-      fetch(`/api/blog/post/${s}`)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.error) {
-            setPost(null);
-          } else {
-            setPost(data);
-            // Extract headings for TOC
-            const headings = extractHeadingsFromHtml(data.content || "");
-            setToc(headings);
-          }
-          setLoading(false);
-        })
-        .catch(() => setLoading(false));
-    });
-  }, [params]);
-
-  if (loading) {
-    return (
-      <div className="blog-theme-root">
-        <div className="blog-container" style={{ paddingTop: "100px", textAlign: "center" }}>
-          <p style={{ color: "var(--blog-text-secondary)" }}>
-            Loading<span className="blog-cursor"></span>
-          </p>
-        </div>
-      </div>
-    );
-  }
+  const post = posts.find((p) => p.slug === slug);
 
   if (!post) {
     return (
-      <div className="blog-theme-root">
-        <div className="blog-container" style={{ paddingTop: "100px", textAlign: "center" }}>
-          <h1 className="blog-title">Post Not Found</h1>
-          <Link href="/blog" style={{ color: "var(--blog-accent)" }}>
-            ← Back to Index
-          </Link>
-        </div>
+      <div className={cn("portfolio-web min-h-[100dvh] flex items-center justify-center bg-[var(--hw-bg)]", theme)}>
+        <main className="relative z-2 text-center flex flex-col gap-4">
+          <h1 className="font-fraunces text-2xl">Note not found</h1>
+          <Link href="/blog" className="hw-mono text-xs hover:underline text-[var(--hw-accent)]">[← back to notes]</Link>
+        </main>
+        <GrainOverlay />
+        <div className="hw-frame" aria-hidden="true" />
       </div>
     );
   }
 
+  // High-fidelity custom renderer for technical markdown elements
+  const renderContent = (content: string) => {
+    const parts = content.split(/(```[\s\S]*?```|\$\$[\s\S]*?\$\$)/g);
+    
+    return parts.map((part, index) => {
+      if (part.startsWith("```")) {
+        // Code Block
+        const lines = part.split("\n");
+        const firstLine = lines[0];
+        const lang = firstLine.replace("```", "").trim();
+        const code = lines.slice(1, -1).join("\n");
+        return (
+          <pre key={index} className="my-6 p-5 bg-[var(--hw-paper)] border border-[var(--hw-fg)]/10 font-mono text-[clamp(0.7rem,calc(14*var(--u)),0.88rem)] overflow-x-auto leading-relaxed select-text rounded-sm relative group/code max-w-full shadow-sm">
+            {lang && <div className="absolute right-3 top-2 text-[10px] hw-mono opacity-50 uppercase">{lang}</div>}
+            <code>{code}</code>
+          </pre>
+        );
+      } else if (part.startsWith("$$")) {
+        // standalone Math Block
+        const formula = part.replace(/\$\$/g, "").trim();
+        return (
+          <div key={index} className="my-6 py-4 px-6 bg-[var(--hw-accent)]/5 border-l-2 border-[var(--hw-accent)] text-center font-mono text-[clamp(0.75rem,calc(16*var(--u)),0.92rem)] overflow-x-auto leading-normal normal-case select-text">
+            {formula}
+          </div>
+        );
+      } else {
+        // Paragraph Splitter
+        return part.split("\n\n").map((para, pIndex) => {
+          const trimmed = para.trim();
+          if (!trimmed) return null;
+          
+          // Header 3
+          if (trimmed.startsWith("### ")) {
+            return (
+              <h3 key={`${index}-${pIndex}`} className="font-fraunces font-medium text-[clamp(1.3rem,calc(32*var(--u)),1.85rem)] leading-tight text-[var(--hw-fg)] mt-10 mb-4 normal-case">
+                {trimmed.replace("### ", "")}
+              </h3>
+            );
+          }
+          // Header 4
+          if (trimmed.startsWith("#### ")) {
+            return (
+              <h4 key={`${index}-${pIndex}`} className="font-fraunces font-medium text-[clamp(1.1rem,calc(26*var(--u)),1.5rem)] leading-tight text-[var(--hw-fg)] mt-8 mb-3 normal-case">
+                {trimmed.replace("#### ", "")}
+              </h4>
+            );
+          }
+          // Unordered Lists
+          if (trimmed.startsWith("- ")) {
+            const items = trimmed.split("\n");
+            return (
+              <ul key={`${index}-${pIndex}`} className="list-disc pl-5 my-5 flex flex-col gap-2.5 font-roboto-mono text-[clamp(0.85rem,calc(17*var(--u)),0.98rem)] leading-relaxed text-[var(--hw-fg)] opacity-90 normal-case">
+                {items.map((item, iIndex) => {
+                  const cleaned = item.replace("- ", "");
+                  return (
+                    <li key={iIndex}>
+                      {cleaned.split(/(\*\*.*?\*\*)/g).map((chunk, cIdx) => {
+                        if (chunk.startsWith("**") && chunk.endsWith("**")) {
+                          return <strong key={cIdx} className="font-bold">{chunk.slice(2, -2)}</strong>;
+                        }
+                        return chunk;
+                      })}
+                    </li>
+                  );
+                })}
+              </ul>
+            );
+          }
+          
+          // Regular Text Paragraph with Inline Parser
+          return (
+            <p key={`${index}-${pIndex}`} className="font-roboto-mono text-[clamp(0.85rem,calc(17*var(--u)),0.98rem)] leading-relaxed text-[var(--hw-fg)] opacity-90 mb-5 normal-case">
+              {trimmed.split(/(\*\*.*?\*\*|\$.*?\$)/g).map((word, wIndex) => {
+                if (word.startsWith("**") && word.endsWith("**")) {
+                  return <strong key={wIndex} className="font-bold">{word.slice(2, -2)}</strong>;
+                }
+                if (word.startsWith("$") && word.endsWith("$")) {
+                  return <code key={wIndex} className="bg-[var(--hw-paper)] border border-[var(--hw-fg)]/10 px-1.5 py-0.5 rounded font-mono text-[0.85em]">{word.slice(1, -1)}</code>;
+                }
+                return word;
+              })}
+            </p>
+          );
+        });
+      }
+    });
+  };
+
   return (
-    <div className="blog-theme-root">
-      {/* Top Navigation Bar */}
-      <nav className="blog-topbar">
-        <Link href="/" className="blog-brand">
-          <span className="blog-brand-icon">◈</span>
-          <span className="blog-brand-text">Lothnic</span>
-        </Link>
-
-        <span className="blog-topbar-title">{post.title.split(":")[0]}</span>
-
-        <div className="blog-topbar-controls">
-          <button
-            className={`blog-topbar-link ${theme === "terminal" ? "active" : ""}`}
-            onClick={() => setTheme("terminal")}
-          >
-            Terminal
-          </button>
-          <button
-            className={`blog-topbar-link ${theme === "portfolio" ? "active" : ""}`}
-            onClick={() => setTheme("portfolio")}
-          >
-            Portfolio
-          </button>
-        </div>
-      </nav>
-
-      <div className="blog-container">
-        <header className="blog-header" style={{ border: "none", marginBottom: "40px" }}>
+    <div className={cn("portfolio-web min-h-[100dvh] bg-[var(--hw-bg)]", theme)}>
+      <main className="relative z-2 mx-auto max-w-[850px] px-[var(--hw-gutter)] py-[calc(60*var(--u))]">
+        {/* Navigation Header */}
+        <header className="flex items-center justify-between border-b border-[var(--hw-fg)]/10 pb-[calc(20*var(--u))] mb-[calc(60*var(--u))]">
           <Link
             href="/blog"
-            style={{
-              color: "var(--blog-accent)",
-              textDecoration: "none",
-              fontSize: "0.9rem",
-              marginBottom: "20px",
-              display: "inline-block",
-            }}
+            className="hw-mono text-[var(--hw-text-eyebrow)] tracking-wider hover:text-[var(--hw-accent)] transition-colors normal-case"
           >
-            ← INDEX
+            [← all notes]
           </Link>
-          <div
-            style={{
-              color: "var(--blog-accent)",
-              fontSize: "0.9rem",
-              marginBottom: "10px",
-            }}
+          <button
+            onClick={toggleTheme}
+            aria-label="Toggle Theme"
+            className="flex items-center justify-center opacity-70 transition-opacity duration-200 ease-out hover:opacity-100 cursor-pointer p-[calc(4*var(--u))]"
           >
-            {post.date} // {post.tag}
-          </div>
-          <h1 className="blog-title" style={{ fontSize: "2.5rem" }}>
-            {post.title}
-          </h1>
+            {theme === "light" ? (
+              <Moon style={{ height: "calc(24 * var(--u))", width: "auto" }} />
+            ) : (
+              <Sun style={{ height: "calc(24 * var(--u))", width: "auto" }} />
+            )}
+          </button>
         </header>
 
-        <main className="blog-post-layout">
-          <aside className="blog-sidebar" style={{ position: "sticky", top: "100px" }}>
-            <h3 className="blog-toc-title">Table of Contents</h3>
-            <ul className="blog-toc-list">
-              {toc.map((item) => (
-                <li key={item.id} className="blog-toc-item">
-                  <a href={`#${item.id}`} className="blog-toc-link">
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </aside>
+        {/* Article Metadata */}
+        <article className="flex flex-col">
+          <div className="flex items-center gap-3 hw-mono text-[var(--hw-text-eyebrow)] opacity-60 lowercase mb-[calc(14*var(--u))]">
+            <span>{post.date}</span>
+            <span>·</span>
+            <span>{post.category}</span>
+          </div>
 
-          <article className="blog-content">
-            <div dangerouslySetInnerHTML={{ __html: post.content || "" }} />
+          <h1 className="font-fraunces font-medium text-[clamp(1.8rem,calc(54*var(--u)),3.2rem)] leading-[1.1] text-[var(--hw-fg)] tracking-[-0.015em] normal-case mb-[calc(40*var(--u))]">
+            {post.title}
+          </h1>
 
-            <div
-              style={{
-                marginTop: "80px",
-                paddingTop: "40px",
-                borderTop: "1px solid var(--blog-border)",
-              }}
-            >
-              <Link href="/blog" className="blog-toc-link">
-                ← Back to Index
-              </Link>
-            </div>
-          </article>
-        </main>
-      </div>
+          {/* Rendered Markdown Body */}
+          <div className="flex flex-col mt-[calc(10*var(--u))]">
+            {renderContent(post.content)}
+          </div>
+        </article>
+
+        {/* Footer separator line */}
+        <div className="mt-[calc(100*var(--u))] border-t border-[var(--hw-fg)]/10 pt-[calc(30*var(--u))] text-center">
+          <p className="hw-mono text-[var(--hw-text-eyebrow)] opacity-40 leading-none">
+            ~ ~ ~ ~ ~ ~ ~
+          </p>
+          <p className="hw-mono text-[var(--hw-text-eyebrow)] opacity-40 mt-[calc(16*var(--u))]">
+            &copy; {new Date().getFullYear()} Mayank Joshi
+          </p>
+        </div>
+      </main>
+
+      <GrainOverlay />
+      <div className="hw-frame" aria-hidden="true" />
     </div>
   );
-}
-
-// Helper to extract headings from HTML content
-function extractHeadingsFromHtml(html: string): TOCItem[] {
-  const headingRegex = /<h2[^>]*id="([^"]*)"[^>]*>([^<]*)<\/h2>/gi;
-  const headings: TOCItem[] = [];
-  let match;
-
-  // First try to find h2 with id attributes
-  while ((match = headingRegex.exec(html)) !== null) {
-    headings.push({ id: match[1], label: match[2] });
-  }
-
-  // If no h2 with ids, extract h2 text and generate ids
-  if (headings.length === 0) {
-    const simpleH2Regex = /<h2[^>]*>([^<]*)<\/h2>/gi;
-    while ((match = simpleH2Regex.exec(html)) !== null) {
-      const label = match[1];
-      const id = label
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/(^-|-$)/g, "");
-      headings.push({ id, label });
-    }
-  }
-
-  return headings;
 }
