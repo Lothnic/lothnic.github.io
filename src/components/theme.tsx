@@ -43,7 +43,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 }
 
 export function ThemeRoot({ children, className }: { children: ReactNode; className?: string }) {
-  return <div className={cn("portfolio-web", className)}>{children}</div>;
+  const { theme } = useTheme();
+  return <div className={cn("portfolio-web", theme === "dark" && "dark", className)}>{children}</div>;
 }
 
 export function ThemeToggle() {

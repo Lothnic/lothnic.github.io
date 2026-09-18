@@ -1,9 +1,10 @@
 ---
 slug: vllmini_architecture
 title: "vllmini: Building a Minimal LLM Inference Engine in PyTorch"
-date: "2026-04-01"
-category: "systems"
-excerpt: "A from-scratch PyTorch inference engine for Llama, Qwen, and Mistral — covering meta-device weight loading, FlashAttention, KV caching, streaming generation, and 4-bit NF4 quantization."
+date: 2026-08-15
+category: systems
+excerpt: A from-scratch PyTorch inference engine for Llama, Qwen, and Mistral — covering meta-device weight loading, FlashAttention, KV caching, streaming generation, and 4-bit NF4 quantization.
+image:
 ---
 
 **vllmini** is my take on the  implementation of a vLLM-style inference engine,  which is built from scratch in PyTorch to help me understand what actually happens inside a modern LLM serving stack at the basic level. It currently supports Llama 2/3 and derivatives, Qwen 2/3, and Mistral with FlashAttention, KV caching, streaming output, a stateless sampler, and optional 4-bit NF4 quantization.

@@ -417,51 +417,133 @@
   pointer-events: none;
 }
 
-@keyframes hw-art-drift {
-  0%   { transform: translateY(0px) scale(1.04); }
-  50%  { transform: translateY(-8px) scale(1.04); }
-  100% { transform: translateY(0px) scale(1.04); }
-}
-
-.hw-footer-art {
-  display: block;
+.contact-hands {
+  --hands-left: url("/images/contact/hands-darkmode-left.webp");
+  --hands-right: url("/images/contact/hands-darkmode-right.webp");
+  --contact-hands-opacity: 0.46;
   position: absolute;
   inset: 0;
   z-index: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  opacity: var(--contact-hands-opacity);
   pointer-events: none;
-  /* Light mode: multiply erases the near-white cream background into the sandstone page */
-  mix-blend-mode: multiply;
-  filter: grayscale(100%) contrast(1.35) brightness(1.08);
-  opacity: 0.25;
-  /* Cinematic mask: wide open at centre where the hands meet, fades out at all edges */
-  -webkit-mask-image:
-    radial-gradient(
-      ellipse 88% 62% at 50% 50%,
-      #000 28%,
-      rgba(0,0,0,0.72) 52%,
-      rgba(0,0,0,0.28) 72%,
-      transparent 92%
-    );
-  mask-image:
-    radial-gradient(
-      ellipse 88% 62% at 50% 50%,
-      #000 28%,
-      rgba(0,0,0,0.72) 52%,
-      rgba(0,0,0,0.28) 72%,
-      transparent 92%
-    );
-  animation: hw-art-drift 9s ease-in-out infinite;
-  will-change: transform;
+  filter: invert(1) grayscale(100%) contrast(1.14) brightness(0.92);
 }
 
-.dark .hw-footer-art {
-  /* Dark mode: invert flips cream→dark, screen makes it vanish; white marks glow */
+.dark .contact-hands {
+  --contact-hands-opacity: 0.5;
+  filter: none;
+}
+
+.contact-particles {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.contact-hands__viewport {
+  position: absolute;
+  inset: 0;
+}
+
+.contact-hands__stage {
+  position: absolute;
+  transform: translate(-2.5%, 4.5%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 70%, rgba(0, 0, 0, 0) 100%);
+  mask-image: linear-gradient(to bottom, #000 70%, rgba(0, 0, 0, 0) 100%);
+}
+
+.contact-hands__parallax {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+  -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 0), #000 8%, #000 92%, rgba(0, 0, 0, 0));
+  mask-image: linear-gradient(to right, rgba(0, 0, 0, 0), #000 8%, #000 92%, rgba(0, 0, 0, 0));
+}
+
+.contact-hands__hand {
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 1;
+  will-change: transform, opacity;
+}
+
+.contact-hands[data-ready] .contact-hands__hand {
+  opacity: 0;
+}
+
+.contact-hands__hand--left {
+  background-image: var(--hands-left);
+}
+
+.contact-hands__hand--right {
+  background-image: var(--hands-right);
+}
+
+.contact-hands__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  will-change: opacity;
+}
+
+.contact-hands__scan {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  -webkit-mask-image: var(--hands-left);
+  mask-image: var(--hands-left);
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+.contact-hands__scan::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 14%;
+  transform: translateX(calc(var(--scan-x, 0px) - 50%));
+  background: linear-gradient(90deg, rgba(255, 250, 235, 0), rgba(255, 250, 235, 0.85), rgba(255, 250, 235, 0));
   mix-blend-mode: screen;
-  filter: invert(1) grayscale(100%) contrast(1.25) brightness(0.82);
-  opacity: 0.20;
+}
+
+.contact-hands__spark {
+  position: absolute;
+  left: 49%;
+  top: 56%;
+  width: 30%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0.5);
+  background: radial-gradient(circle, rgba(255, 252, 240, 0.95) 0%, rgba(255, 246, 220, 0.32) 26%, rgba(255, 246, 220, 0) 62%);
+  filter: blur(1px);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-hands__canvas,
+  .contact-hands__scan,
+  .contact-hands__spark {
+    display: none;
+  }
+
+  .contact-hands__hand {
+    opacity: 1 !important;
+  }
 }
 
 .hw-footer-wordmark {
@@ -491,11 +573,6 @@
 @media (max-width: 767px) {
   .hw-footer {
     padding-block: 3dvh;
-  }
-  .hw-footer-art {
-    width: 130%;
-    margin-inline: -15%;
-    animation-duration: 12s;
   }
 }
 
@@ -628,23 +705,24 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html,
   body {
-    @apply bg-background text-foreground;
-    background: #111a16;
+    background-color: #111a16;
     overflow-x: clip;
   }
-  html {
-    @apply font-sans;
-    background: #111a16;
-    overflow-x: clip;
+  html.dark,
+  body.dark,
+  html:has(.dark),
+  body:has(.dark) {
+    background-color: #111a16 !important;
   }
-  html:has(.portfolio-web:not(.dark)),
-  body:has(.portfolio-web:not(.dark)) {
-    background: #edeae4;
+  html:not(.dark):has(.blog-essay),
+  body:not(.dark):has(.blog-essay) {
+    background-color: #fcf8e8 !important;
   }
-  html:has(.portfolio-web.dark),
-  body:has(.portfolio-web.dark) {
-    background: #111a16;
+  html:not(.dark):not(:has(.blog-essay)),
+  body:not(.dark):not(:has(.blog-essay)) {
+    background-color: #edeae4 !important;
   }
 }
 

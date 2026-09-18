@@ -203,19 +203,19 @@ export default function BlogPost() {
             <span>{post.category}</span>
           </div>
 
+          <h1 className="font-fraunces font-medium text-[clamp(1.9rem,calc(56*var(--u)),3.3rem)] leading-[1.12] text-[var(--hw-fg)] tracking-[-0.015em] normal-case mb-[calc(24*var(--u))]">
+            {post.title}
+          </h1>
+
           {/* Featured image (from frontmatter `image:` field) */}
           {post.image && (
             <img
               src={post.image}
               alt=""
               loading="lazy"
-              className="mb-[calc(36*var(--u))] w-full rounded-[14px] object-cover"
+              className="mb-[calc(24*var(--u))] w-full max-h-[350px] rounded-[14px] object-cover object-top"
             />
           )}
-
-          <h1 className="font-fraunces font-medium text-[clamp(1.9rem,calc(56*var(--u)),3.3rem)] leading-[1.12] text-[var(--hw-fg)] tracking-[-0.015em] normal-case mb-[calc(40*var(--u))]">
-            {post.title}
-          </h1>
 
           {/* Table of Contents */}
           {toc.length > 0 && (

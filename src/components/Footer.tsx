@@ -1,3 +1,6 @@
+import { ContactHands } from "./ContactHands";
+import { ContactParticles } from "./ContactParticles";
+
 export function Footer() {
   return (
     <footer className="hw-footer">
@@ -22,13 +25,9 @@ export function Footer() {
         </a>
       </div>
 
-      <div className="hw-footer-stage max-md:hidden">
-        <img
-          className="hw-footer-art"
-          src="/images/desktop/adam_flipped.png"
-          alt=""
-          aria-hidden="true"
-        />
+      <div className="hw-footer-stage">
+        <ContactHands />
+        <ContactParticles />
         {/* <div className="hw-footer-wordmark-wrap">
           <div className="hw-ghost hw-footer-wordmark">
             <span>LOTH<span style={{ display: "inline-block", transform: "scaleX(-1)" }}>N</span>IC</span>
